@@ -1,5 +1,5 @@
 {
-  "name": "aristridely/slideover",
+  "name": "aristridely-local/slideover-3",
   "description": "Laravel Livewire slideover component",
   "keywords": [
     "laravel",
@@ -15,7 +15,7 @@
   ],
   "require-dev": {
     "orchestra/testbench": "^6.15",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^10.1"
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
@@ -29,8 +29,8 @@
     }
   },
   "require": {
-    "php": "^7.4|^8.0",
-    "livewire/livewire": "^2.0",
+    "php": "^8.1",
+    "livewire/livewire": "^3.0@beta",
     "spatie/laravel-package-tools": "^1.9"
   },
   "autoload": {
