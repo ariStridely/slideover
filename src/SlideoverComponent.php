@@ -58,7 +58,12 @@ abstract class SlideoverComponent extends Component implements Contract
 
     public function closeSlideover(): void
     {
-        $this->dispatch('closeSlideover', force: $this->forceClose, skipPreviousSlideovers: $this->skipSlideovers, destroySkipped: $this->destroySkipped);
+        $this->dispatch(
+            'closeSlideover',
+            force: $this->forceClose,
+            skipPreviousSlideovers: $this->skipSlideovers,
+            destroySkipped: $this->destroySkipped
+        );
     }
 
     public function closeSlideoverWithEvents(array $events): void
@@ -67,46 +72,34 @@ abstract class SlideoverComponent extends Component implements Contract
         $this->closeSlideover();
     }
 
-    public static function slideoverMaxWidth(): string
+    public static function width(): string
     {
-        return config('wire-elements-slideover.component_defaults.slideover_max_width', '2xl');
-    }
-
-    public static function slideoverMaxWidthClass(): string
-    {
-        if (! array_key_exists(static::slideoverMaxWidth(), static::$maxWidths)) {
-            throw new InvalidArgumentException(
-                sprintf('Slideover max width [%s] is invalid. The width must be one of the following [%s].',
-                    static::slideoverMaxWidth(), implode(', ', array_keys(static::$maxWidths))),
-            );
-        }
-
-        return static::$maxWidths[static::slideoverMaxWidth()];
+        return config('livewire-ui-slideover.component_defaults.slideover_width', 'w-1/3');
     }
 
     public static function closeSlideoverOnClickAway(): bool
     {
-        return config('wire-elements-slideover.component_defaults.close_slideover_on_click_away', true);
+        return config('livewire-ui-slideover.component_defaults.close_slideover_on_click_away', true);
     }
 
     public static function closeSlideoverOnEscape(): bool
     {
-        return config('wire-elements-slideover.component_defaults.close_slideover_on_escape', true);
+        return config('livewire-ui-slideover.component_defaults.close_slideover_on_escape', true);
     }
 
     public static function closeSlideoverOnEscapeIsForceful(): bool
     {
-        return config('wire-elements-slideover.component_defaults.close_slideover_on_escape_is_forceful', true);
+        return config('livewire-ui-slideover.component_defaults.close_slideover_on_escape_is_forceful', true);
     }
 
-    public static function dispatchCloseEvent(): bool
+    public static function dispatchSlideoverCloseEvent(): bool
     {
-        return config('wire-elements-slideover.component_defaults.dispatch_close_event', false);
+        return config('livewire-ui-slideover.component_defaults.dispatch_slideover_close_event', false);
     }
 
-    public static function destroyOnClose(): bool
+    public static function destroySlideoverOnClose(): bool
     {
-        return config('wire-elements-slideover.component_defaults.destroy_on_close', false);
+        return config('livewire-ui-slideover.component_defaults.destroy_slideover_on_close', false);
     }
 
     private function emitSlideoverEvents(array $events): void

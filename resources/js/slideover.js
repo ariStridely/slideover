@@ -6,12 +6,16 @@ window.LivewireUISlideover = () => {
         foregroundComponentId: null,
         closingComponentId: null,
         transitionDuration: 500,
-        
+
         closeSlideover(force = false, skipPreviousSlideovers = 0, destroySkipped = false) {
             // console.log('closeSlideover');
 
-            if (!this.isEnabled) { return; }
-            if (!this.foregroundComponentId) { return; }
+            if (!this.isEnabled) {
+                return;
+            }
+            if (!this.foregroundComponentId) {
+                return;
+            }
 
             this.closingComponentId = this.visibleComponents.pop();
 
@@ -29,10 +33,8 @@ window.LivewireUISlideover = () => {
             this.foregroundComponentId = null;
 
             let previousVisibleComponentId = this.visibleComponents[this.visibleComponents.length - 1];
-            previousVisibleComponentId 
-                ? this.openComponent(previousVisibleComponentId)
-                : this.closeAll();
-            
+            previousVisibleComponentId ? this.openComponent(previousVisibleComponentId) : this.closeAll();
+
             this.trashClosingActiveComponent();
         },
 
@@ -42,13 +44,13 @@ window.LivewireUISlideover = () => {
                 this.activeComponents.pop();
             }, this.transitionDuration);
         },
-        
+
         trashActiveComponent(trashingId) {
             setTimeout(() => {
-                this.activeComponents = this.activeComponents.filter((id) => id != trashingId);
+                this.activeComponents = this.activeComponents.filter(id => id != trashingId);
             }, this.transitionDuration);
         },
-        
+
         openComponent(componentId) {
             setTimeout(() => {
                 this.foregroundComponentId = componentId;
@@ -57,8 +59,8 @@ window.LivewireUISlideover = () => {
 
         closeAll() {
             setTimeout(() => {
-                this.foregroundComponentId = null;     
-                this.closingComponentId = null;           
+                this.foregroundComponentId = null;
+                this.closingComponentId = null;
                 this.$wire.resetState();
             }, this.transitionDuration);
 
@@ -66,15 +68,17 @@ window.LivewireUISlideover = () => {
         },
 
         getComponentIdByIndex(index) {
-            return this.activeComponents[index];
+            if (this.activeComponents[index] !== undefined) {
+                return this.activeComponents[index]['id'];
+            }
         },
-        
+
         getComponentAttributeById(id, key) {
             if (this.$wire.get('components')[id] !== undefined) {
                 return this.$wire.get('components')[id]['slideoverAttributes'][key];
             }
         },
-        
+
         enable() {
             this.isEnabled = true;
 
@@ -83,7 +87,7 @@ window.LivewireUISlideover = () => {
 
         disable() {
             this.isEnabled = false;
-            
+
             document.getElementsByTagName('html')[0].classList.remove('overflow-y-hidden');
         },
 
@@ -106,12 +110,14 @@ window.LivewireUISlideover = () => {
 
         addActiveComponent(id, skip = false) {
             // console.log('addActiveComponent', id);
-            
+
             if (!this.isEnabled) {
                 this.enable();
             }
 
-            if (this.visibleComponents.includes(id)) { return; }
+            if (this.visibleComponents.includes(id)) {
+                return;
+            }
 
             this.visibleComponents.push(id);
             this.activeComponents.push(id);
@@ -119,18 +125,15 @@ window.LivewireUISlideover = () => {
         },
 
         init() {
-            Livewire.on('closeSlideover', 
-                (force = false, skipPreviousSlideovers = 0, destroySkipped = false) => {
-                    // console.log('init@closeSlideover');
-                    this.closeSlideover(force, skipPreviousSlideovers, destroySkipped);
-                }
-            );
+            Livewire.on('closeSlideover', (force = false, skipPreviousSlideovers = 0, destroySkipped = false) => {
+                // console.log('init@closeSlideover');
+                this.closeSlideover(force, skipPreviousSlideovers, destroySkipped);
+            });
 
-            Livewire.on('activeSlideoverComponentChanged', (id) => {
+            Livewire.on('activeSlideoverComponentChanged', id => {
                 // console.log('init@activeSlideoverComponentChanged');
                 this.addActiveComponent(id);
             });
         },
-
     };
-}
+};

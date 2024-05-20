@@ -18,11 +18,11 @@
             <!-- Slideover template -->
             <div 
                 x-show="isEnabled && visibleComponents.length > {{ $i }}" 
-                class="slideover-ui-container fixed inset-0 overflow-hidden z-10"
+                class="fixed inset-0 z-10 overflow-hidden slideover-ui-container"
             >
                 <div 
                     x-show="isEnabled && visibleComponents.length > {{ $i }}" 
-                    class="slideover-ui-background-overlay absolute inset-0 bg-gray-500 bg-opacity-75 z-10"
+                    class="absolute inset-0 z-10 bg-gray-500 bg-opacity-75 slideover-ui-background-overlay"
 
                     x-transition:enter="ease-in-out duration-500" 
                     x-transition:enter-start="opacity-0" 
@@ -37,7 +37,7 @@
                 
                 <div 
                     x-show="isEnabled && visibleComponents.length > {{ $i }}" 
-                    class="slideover-ui-panel absolute inset-y-0 right-0 bg-white z-10"
+                    class="absolute inset-y-0 right-0 z-10 bg-white slideover-ui-panel"
                     x-bind:class="getComponentAttributeById(getComponentIdByIndex({{ $i }}), 'width')"
                     
                     x-transition:enter="transform transition ease-in-out duration-500" 
@@ -57,7 +57,7 @@
                         @endphp
                         
                         <div x-ref="{{ $key }}" wire:key="{{ $key }}">
-                            @livewire($component['name'], $component['attributes'], key($key))
+                            @livewire($component['name'], $component['arguments'], key($key))
                         </div>
                     @endif
                 </div>

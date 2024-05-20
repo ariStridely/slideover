@@ -34,7 +34,7 @@ class Slideover extends Component
             throw new Exception("[{$componentClass}] does not implement [{$requiredInterface}] interface.");
         }
 
-        $id = md5($component.serialize($arguments));
+        $id = md5($component . serialize($arguments));
 
         $arguments = collect($arguments)
             ->merge($this->resolveComponentProps($arguments, new $componentClass()))
@@ -49,10 +49,9 @@ class Slideover extends Component
                 'closeOnClickAway' => $componentClass::closeSlideoverOnClickAway(),
                 'closeOnEscape' => $componentClass::closeSlideoverOnEscape(),
                 'closeOnEscapeIsForceful' => $componentClass::closeSlideoverOnEscapeIsForceful(),
-                'dispatchCloseEvent' => $componentClass::dispatchCloseEvent(),
-                'destroyOnClose' => $componentClass::destroyOnClose(),
-                'maxWidth' => $componentClass::slideoverMaxWidth(),
-                'maxWidthClass' => $componentClass::slideoverMaxWidthClass(),
+                'dispatchCloseEvent' => $componentClass::dispatchSlideoverCloseEvent(),
+                'destroyOnClose' => $componentClass::destroySlideoverOnClose(),
+                'width' => $componentClass::width(),
             ], $slideoverAttributes),
         ];
 
@@ -86,7 +85,7 @@ class Slideover extends Component
 
         $instance = app()->make($parameterClassName);
 
-        if (! $model = $instance->resolveRouteBinding($parameterValue)) {
+        if (!$model = $instance->resolveRouteBinding($parameterValue)) {
             throw (new ModelNotFoundException())->setModel(get_class($instance), [$parameterValue]);
         }
 
@@ -115,18 +114,18 @@ class Slideover extends Component
     {
         return [
             'openSlideover',
-            'destroyComponent',
+            'destroySlideover',
         ];
     }
 
     public function render(): View
     {
         if (config('livewire-ui-slideover.include_js', true)) {
-            $jsPath = __DIR__.'/../public/slideover.js';
+            $jsPath = __DIR__ . '/../public/slideover.js';
         }
 
         if (config('livewire-ui-slideover.include_css', false)) {
-            $cssPath = __DIR__.'/../public/slideover.css';
+            $cssPath = __DIR__ . '/../public/slideover.css';
         }
 
         return view('livewire-ui-slideover::slideover', [
