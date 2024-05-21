@@ -14,14 +14,14 @@ use ReflectionClass;
 
 class Slideover extends Component
 {
-    public ?string $activeComponent;
+    public ?string $activeComponentId;
 
     public array $components = [];
 
     public function resetState(): void
     {
         $this->components = [];
-        $this->activeComponent = null;
+        $this->activeComponentId = null;
     }
 
     public function openSlideover($component, $arguments = [], $slideoverAttributes = []): void
@@ -40,22 +40,21 @@ class Slideover extends Component
             ->merge($this->resolveComponentProps($arguments, new $componentClass()))
             ->all();
 
-
         $this->components[$id] = [
             'name' => $component,
             'attributes' => $arguments, // Deprecated
             'arguments' => $arguments,
             'slideoverAttributes' => array_merge([
-                'closeOnClickAway' => $componentClass::closeSlideoverOnClickAway(),
-                'closeOnEscape' => $componentClass::closeSlideoverOnEscape(),
-                'closeOnEscapeIsForceful' => $componentClass::closeSlideoverOnEscapeIsForceful(),
-                'dispatchCloseEvent' => $componentClass::dispatchSlideoverCloseEvent(),
-                'destroyOnClose' => $componentClass::destroySlideoverOnClose(),
+                'closeSlideoverOnClickAway' => $componentClass::closeSlideoverOnClickAway(),
+                'closeSlideoverOnEscape' => $componentClass::closeSlideoverOnEscape(),
+                'closeSlideoverOnEscapeIsForceful' => $componentClass::closeSlideoverOnEscapeIsForceful(),
+                'dispatchSlideoverCloseEvent' => $componentClass::dispatchSlideoverCloseEvent(),
+                'destroySlideoverOnClose' => $componentClass::destroySlideoverOnClose(),
                 'width' => $componentClass::width(),
             ], $slideoverAttributes),
         ];
 
-        $this->activeComponent = $id;
+        $this->activeComponentId = $id;
 
         $this->dispatch('activeSlideoverComponentChanged', id: $id);
     }
@@ -105,7 +104,7 @@ class Slideover extends Component
             ->filter();
     }
 
-    public function destroyComponent($id): void
+    public function destroySlideover($id): void
     {
         unset($this->components[$id]);
     }

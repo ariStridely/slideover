@@ -17,11 +17,11 @@
         @for ($i = 0; $i < count($components) + 1; $i++)
             <!-- Slideover template -->
             <div 
-                x-show="isEnabled && visibleComponents.length > {{ $i }}" 
+                x-show="isEnabled && visibleComponentsIds.length > {{ $i }}" 
                 class="fixed inset-0 z-10 overflow-hidden slideover-ui-container"
             >
                 <div 
-                    x-show="isEnabled && visibleComponents.length > {{ $i }}" 
+                    x-show="isEnabled && visibleComponentsIds.length > {{ $i }}" 
                     class="absolute inset-0 z-10 bg-gray-500 bg-opacity-75 slideover-ui-background-overlay"
 
                     x-transition:enter="ease-in-out duration-500" 
@@ -36,7 +36,7 @@
                 ></div>
                 
                 <div 
-                    x-show="isEnabled && visibleComponents.length > {{ $i }}" 
+                    x-show="isEnabled && visibleComponentsIds.length > {{ $i }}" 
                     class="absolute inset-y-0 right-0 z-10 bg-white slideover-ui-panel"
                     x-bind:class="getComponentAttributeById(getComponentIdByIndex({{ $i }}), 'width')"
                     
